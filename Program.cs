@@ -1,6 +1,7 @@
 ﻿// Program.cs
-using Chatbot_Dev.Handlers;
+//using Chatbot_Dev.Handlers;
 using Telegram.Bot;
+using TelegramBot.Handlers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,13 +33,24 @@ _ = Task.Run(async () =>
     Console.WriteLine($"🤖 Bot {me.Username} is up!");
 
     botClient.StartReceiving(
-        async (client, update, token) => await TelegramUpdateHandler.HandleUpdateAsync(client, update),
-        (client, exception, token) =>
-        {
-            Console.WriteLine($"❌ Error: {exception.Message}");
-            return Task.CompletedTask;
-        },
-        cancellationToken: cancellationToken.Token);
+//        async (client, update, token) => await TelegramUpdateHandler.HandleUpdateAsync(client, update),
+//        (client, exception, token) =>
+//        {
+//            Console.WriteLine($"❌ Error: {exception.Message}");
+//            return Task.CompletedTask;
+//        },
+//        cancellationToken: cancellationToken.Token);
+//});
+ async (client, update, token) =>
+ {
+     await TelegramUpdateHandler.HandleUpdateAsync(client, update);
+ },
+    (client, exception, token) =>
+    {
+        Console.WriteLine($"❌ Error: {exception.Message}");
+        return Task.CompletedTask;
+    },
+    cancellationToken: cancellationToken.Token);
 });
 
 app.Run();
